@@ -38,7 +38,7 @@ app.use("/messages", messagesRouter)
 
 
 app.get('/seed', async (_: Request, res: Response) => {
-    createConversations();
+    // createConversations();
     res.json({
         message: 'Seeded successfully'
     });
