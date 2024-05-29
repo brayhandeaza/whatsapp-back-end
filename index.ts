@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
-import { db } from './src/config';
-import { conversationRouter, messagesRouter, usersRouter } from './src/routes';
-import { ws } from './src/ws';
+import { db } from './config';
+import { conversationRouter, messagesRouter, usersRouter } from './routes';
+import { ws } from './ws';
 import cors from 'cors';
 import http from 'http';
 import { Server } from "socket.io";
-import { createConversations } from './src/seeds';
+import { createConversations } from './seeds';
 
 
-export const app = express();
+const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
@@ -54,3 +54,5 @@ const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Listening on port http://localhost:${PORT}`);
 });
+
+export default app

@@ -29,11 +29,9 @@
 		"uuid": "^9.0.1"
 	},
 	"scripts": {
-		"start": "pm2 start ./build/app.js",
-		"js:run": "node  --watch ./build/app.js",
-		"dev": "ts-node app.ts",
-		"build": "tsc",
-		"vercel-build": "tsc"
+		"start": "ts-node index.ts",
+		"dev": "nodemon index.ts",
+		"build": "tsc"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",

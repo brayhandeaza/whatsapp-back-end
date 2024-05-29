@@ -4,11 +4,11 @@ import pg from "pg"
 
 export const db = new Sequelize({
     dialect: 'postgres',
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DATABASE,
-    host: process.env.POSTGRES_HOST,
-    port: Number(process.env.POSTGRES_PORT) || 5432,
+    username: process.env.LOCAL_USER,
+    password: process.env.LOCAL_PASSWORD,
+    database: process.env.LOCAL_DATABASE,
+    host: process.env.LOCAL_HOST,
+    port: Number(process.env.LOCAL_PORT) || 5432,
     dialectModule: pg, // I've added this.
     timezone: process.env.TZ,
     define: {
