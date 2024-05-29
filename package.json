@@ -32,8 +32,7 @@
 		"start": "pm2 start ./build/app.js",
 		"js:run": "node  --watch ./build/app.js",
 		"dev": "ts-node app.ts",
-		"build": "tsc",
-		"vercel-build": "npm install pg"
+		"build": "tsc"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
