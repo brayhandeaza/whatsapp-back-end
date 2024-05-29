@@ -31,8 +31,7 @@
 	"scripts": {
 		"start": "ts-node index.ts",
 		"dev": "nodemon index.ts",
-		"build": "tsc",
-		"vercel-build": "npm i pg"
+		"build": "tsc"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
