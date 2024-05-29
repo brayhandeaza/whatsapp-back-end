@@ -5,7 +5,7 @@ import pg from "pg"
 
 // {
 //     dialect: 'postgres',
-    
+
 //     username: process.env.LOCAL_USER,
 //     password: process.env.LOCAL_PASSWORD,
 //     database: process.env.LOCAL_DATABASE,
@@ -20,4 +20,20 @@ import pg from "pg"
 //     logging: false
 // }
 
-export const db = new Sequelize(process.env.LOCAL_URL!);
+export const db = new Sequelize(
+    {
+        dialect: 'postgres',
+        username: process.env.LOCAL_USER,
+        password: process.env.LOCAL_PASSWORD,
+        database: process.env.LOCAL_DATABASE,
+        host: process.env.LOCAL_HOST,
+        port: Number(process.env.LOCAL_PORT) || 5432,
+        dialectModule: pg,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+            }
+        },
+    }
+);
