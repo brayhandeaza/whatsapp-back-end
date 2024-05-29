@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
-import { db } from './config';
-import { conversationRouter, messagesRouter, usersRouter } from './routes';
-import { ws } from './ws';
+import { db } from './src/config';
+import { conversationRouter, messagesRouter, usersRouter } from './src/routes';
+import { ws } from './src/ws';
 import cors from 'cors';
 import http from 'http';
 import { Server } from "socket.io";
-import { createConversations } from './seeds';
+import { createConversations } from './src/seeds';
 
 
 export const app = express();
