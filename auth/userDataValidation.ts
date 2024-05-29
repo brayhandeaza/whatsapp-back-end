@@ -12,6 +12,11 @@ export const UserValidationSchemaUpdate = Joi.object({
     password: Joi.string().optional()
 })
 
+export const UserLoginValidationSchemaUpdate = Joi.object({
+    email: Joi.string().email().optional(),
+    password: Joi.string().optional()
+})
+
 export const UserValidationQueryParams = Joi.object({
     page: Joi.number().integer().required(),
     pageSize: Joi.number().integer().required(),

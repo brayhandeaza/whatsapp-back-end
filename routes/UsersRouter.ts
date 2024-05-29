@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Conversations, ConversationsLastSeen, Messages, Users } from "../models";
-import { UserSearchValidationQueryParams, UserValidationQueryParams, UserValidationSchema, UserValidationSchemaUpdate, UserValidationWithLastSeenQueryParams } from "../auth/userDataValidation";
+import { UserLoginValidationSchemaUpdate, UserSearchValidationQueryParams, UserValidationQueryParams, UserValidationSchema, UserValidationSchemaUpdate, UserValidationWithLastSeenQueryParams } from "../auth/userDataValidation";
 import bcrypt from "bcrypt";
 import { Op, literal } from "sequelize";
 
@@ -146,6 +146,37 @@ router.get('/:id', async (req: Request, res: Response) => {
         //     )`)
         //   }
 
+
+        res.status(200).json({
+            data: user
+        })
+
+    } catch (error: any) {
+        res.status(400).json({
+            error: error.toString()
+        })
+    }
+})
+
+
+router.post('/login', async (req: Request, res: Response) => {
+    try {
+        const { email, password } = await UserLoginValidationSchemaUpdate.validateAsync(req.body)
+        const user = await Users.findOne({
+            where: {
+                email
+            }
+        })
+
+        if (!user) {
+            throw new String("email or password incorrect")
+        }
+
+        const match = await bcrypt.compare(password, user.getDataValue("password"))
+
+        if (!match) {
+            throw new String("email or password incorrect")
+        }
 
         res.status(200).json({
             data: user
