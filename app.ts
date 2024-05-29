@@ -8,7 +8,7 @@ import { Server } from "socket.io";
 import { createConversations } from './seeds';
 
 
-const app = express();
+export const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {

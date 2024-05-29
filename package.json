@@ -31,8 +31,9 @@
 	"scripts": {
 		"start": "pm2 start ./build/app.js",
 		"js:run": "node  --watch ./build/app.js",
-		"ts:run": "ts-node app.ts",
-		"build": "tsc"
+		"dev": "ts-node app.ts",
+		"build": "tsc",
+		"vercel-build": "echo hello"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
