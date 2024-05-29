@@ -2,11 +2,6 @@ import "dotenv/config"
 import { Sequelize } from "sequelize";
 import pg from "pg"
 
-
-
-
-
-
 export const db = new Sequelize({
     dialect: 'postgres',
     username: process.env.POSTGRES_USER,
