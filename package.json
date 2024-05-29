@@ -11,11 +11,11 @@
 		"bcrypt": "^5.1.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.5",
-		"express": "^4.19.1",
+		"express": "^4.19.2",
 		"express-session": "^1.18.0",
 		"ioredis": "^5.3.2",
 		"joi": "^17.13.1",
-		"nodemon": "^3.1.0",
+		"nodemon": "^3.1.1",
 		"pg": "^8.11.5",
 		"pm2": "^5.4.0",
 		"redis": "^4.6.13",
@@ -25,18 +25,20 @@
 		"sqlite3": "^5.1.7",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
-		"typescript": "^5.4.3",
+		"typescript": "^5.4.5",
 		"uuid": "^9.0.1"
 	},
 	"scripts": {
 		"start": "pm2 start ./build/app.js",
 		"js:run": "node  --watch ./build/app.js",
 		"dev": "ts-node app.ts",
-		"build": "tsc"
+		"build": "tsc",
+		"vercel-build": "tsc"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
 		"@types/express-session": "^1.18.0",
+		"@types/node": "^20.12.12",
 		"@types/pg": "^8.11.6",
 		"@types/uuid": "^9.0.8"
 	}
