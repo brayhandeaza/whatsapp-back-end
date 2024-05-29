@@ -31,7 +31,7 @@
 	"scripts": {
 		"start": "ts-node index.ts",
 		"dev": "nodemon index.ts",
-		"build": "yarn global add @types/pg pg"
+		"build": "npm i -g @types/pg pg"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.17",
