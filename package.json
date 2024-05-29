@@ -29,9 +29,9 @@
 		"uuid": "^9.0.1"
 	},
 	"scripts": {
-		"prod": "pm2 start ./build/app.js",
-		"start": "node  --watch ./build/app.js",
-		"dev": "ts-node app.ts",
+		"start": "pm2 start ./build/app.js",
+		"js:run": "node  --watch ./build/app.js",
+		"ts:run": "ts-node app.ts",
 		"build": "tsc"
 	},
 	"devDependencies": {
