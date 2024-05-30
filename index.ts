@@ -49,7 +49,7 @@ app.get('/seed', async (_: Request, res: Response) => {
 
 app.use('*', (_: Request, res: Response) => {
     res.status(401).json({
-        message: 'Alicia01'
+        message: 'Route not Authorized'
     });
 })
 
