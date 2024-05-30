@@ -26,7 +26,8 @@
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.4.5",
-		"uuid": "^9.0.1"
+		"uuid": "^9.0.1",
+		"ws": "^8.17.0"
 	},
 	"scripts": {
 		"start": "ts-node index.ts",

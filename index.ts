@@ -1,18 +1,19 @@
 import express, { Request, Response } from 'express';
 import { db } from './config';
 import { conversationRouter, messagesRouter, usersRouter } from './routes';
-import { ws } from './ws';
+import { ws } from './ws/index';
 import cors from 'cors';
 import http from 'http';
 import { Server } from "socket.io";
 import { createConversations } from './seeds';
 
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
+    cleanupEmptyChildNamespaces: true,
+    allowEIO3: true,
     cors: {
-        origin: '*',
+        origin: "https://whatapp-front-end.vercel.app/",
     }
 });
 
@@ -22,7 +23,9 @@ ws(io)
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: '*' }));
+app.use(cors({
+    origin: "https://whatapp-front-end.vercel.app/",
+}));
 
 // Database connection
 db.authenticate().then(() => {
@@ -46,7 +49,7 @@ app.get('/seed', async (_: Request, res: Response) => {
 
 app.use('*', (_: Request, res: Response) => {
     res.status(401).json({
-        message: 'Unauthorized Routes'
+        message: 'Alicia01'
     });
 })
 
