@@ -13,7 +13,7 @@ const io = new Server(server, {
     cleanupEmptyChildNamespaces: true,
     allowEIO3: true,
     cors: {
-        origin: "https://whatapp-front-end.vercel.app/",
+        origin: "*",
     }
 });
 
@@ -24,7 +24,7 @@ ws(io)
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: "https://whatapp-front-end.vercel.app/",
+    origin: "*",
 }));
 
 // Database connection
