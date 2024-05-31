@@ -92,6 +92,13 @@ router.get('/:id', async (req, res) => {
                     model: models_1.Conversations,
                     as: "conversations",
                     attributes: ['id', 'archivedBy'],
+                    where: {
+                        [sequelize_1.Op.not]: {
+                            archivedBy: {
+                                [sequelize_1.Op.contains]: 5
+                            }
+                        }
+                    },
                     through: {
                         attributes: [],
                     },

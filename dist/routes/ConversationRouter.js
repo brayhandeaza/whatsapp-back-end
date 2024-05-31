@@ -34,29 +34,6 @@ router.get('/', async (req, res) => {
         });
     }
 });
-// router.get('/:id', async (req: Request, res: Response) => {
-//     try {
-//         const conversation = await Conversations.findOne({
-//             where: {
-//                 id: req.params.id
-//             },
-//             include: [
-//                 {
-//                     model: Users,
-//                     as: "users",
-//                     through: { attributes: [] }
-//                 }
-//             ]
-//         })
-//         res.status(200).json({
-//             data: conversation
-//         })
-//     } catch (error: any) {
-//         res.status(400).json({
-//             error: error.toString()
-//         })
-//     }
-// })
 router.get('/:id', async (req, res) => {
     try {
         const conversation = await models_1.Conversations.findOne({
@@ -86,33 +63,72 @@ router.get('/:id', async (req, res) => {
         });
     }
 });
+router.get('/archived/user/:userId', async (req, res) => {
+    try {
+        const { userId } = await conversationsDataValidation_1.ArchivedConversationValidationQueryParams.validateAsync(req.params);
+        const conversation = await models_1.Conversations.findAll({
+            where: {
+                archivedBy: {
+                    [sequelize_1.Op.contains]: userId
+                }
+            },
+            include: [
+                {
+                    model: models_1.Messages,
+                    as: "messages",
+                    order: [['createdAt', 'DESC']],
+                    limit: 1
+                },
+                {
+                    model: models_1.Users,
+                    where: {
+                        [sequelize_1.Op.not]: {
+                            id: userId
+                        }
+                    },
+                    as: "users",
+                    through: { attributes: [] }
+                },
+                {
+                    model: models_1.ConversationsLastSeen,
+                    as: "lastSeens",
+                    limit: 1,
+                    order: [['createdAt', 'DESC']],
+                    where: {
+                        [sequelize_1.Op.and]: [
+                            { userId: userId },
+                            {
+                                lastSeen: {
+                                    [sequelize_1.Op.gt]: new Date()
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        });
+        res.status(200).json({
+            data: conversation
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            error: error.toString()
+        });
+    }
+});
 router.get('/user/:id', async (req, res) => {
     try {
         const { pageSize, page } = await conversationsDataValidation_1.ConversationValidationQueryParams.validateAsync(req.query);
         const limit = pageSize ? +pageSize : 10;
         const offset = limit * (page ? +page - 1 : 1);
-        const conversations = await models_1.ConversationsParticipants.findAll({
+        const conversations = await models_1.Conversations.findAll({
             limit,
             offset,
             where: {
-                userId: req.params.id
+            // userId: req.params.id
             },
-            include: [
-                // {
-                //     model: Messages,
-                //     as: "messages",
-                //     order: [['createdAt', 'DESC']],
-                //     limit: 1
-                // },
-                {
-                    model: models_1.Users,
-                    where: {
-                        [sequelize_1.Op.not]: { id: req.params.id }
-                    },
-                    as: "users",
-                    through: { attributes: [] }
-                }
-            ]
+            include: []
         });
         res.status(200).json({
             data: conversations
@@ -180,12 +196,19 @@ router.post('/lastSeen', async (req, res) => {
 });
 router.patch('/:id', async (req, res) => {
     try {
-        const data = await conversationsDataValidation_1.ConversationValidationUpdateSchema.validateAsync(req.body);
+        const { archivedBy } = await conversationsDataValidation_1.ConversationValidationUpdateSchema.validateAsync(req.body);
         const conversation = await models_1.Conversations.findOne({ where: { id: req.params.id } });
         if (!conversation) {
             throw new String("Conversation not found");
         }
-        await conversation.update(data);
+        const idsToArchive = new Set(conversation.getDataValue("archivedBy"));
+        if (idsToArchive.has(archivedBy))
+            idsToArchive.delete(archivedBy);
+        else
+            idsToArchive.add(archivedBy);
+        await conversation.update({
+            archivedBy: [...idsToArchive]
+        });
         res.status(200).json({
             data: conversation
         });

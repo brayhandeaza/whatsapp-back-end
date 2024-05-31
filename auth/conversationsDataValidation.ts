@@ -6,14 +6,17 @@ export const ConversationValidationSchema = Joi.object({
 })
 
 export const ConversationValidationUpdateSchema = Joi.object({
-    participants: Joi.array().items(Joi.number().integer()).required(),
-    archivedBy: Joi.array().items(Joi.string()).optional()
+    archivedBy: Joi.number().integer().required()
 })
 
 
 export const ConversationValidationQueryParams = Joi.object({
     page: Joi.number().integer().required(),
     pageSize: Joi.number().integer().required(),
+})
+
+export const ArchivedConversationValidationQueryParams = Joi.object({
+    userId: Joi.number().integer().required()
 })
 
 export const UserConversationValidationQueryParams = Joi.object({

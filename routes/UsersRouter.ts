@@ -96,6 +96,13 @@ router.get('/:id', async (req: Request, res: Response) => {
                     model: Conversations,
                     as: "conversations",
                     attributes: ['id', 'archivedBy'],
+                    where: {
+                        [Op.not]: {
+                            archivedBy: {
+                                [Op.contains]: 5
+                            }
+                        }
+                    },
                     through: {
                         attributes: [],
                     },
