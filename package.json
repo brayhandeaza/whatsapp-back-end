@@ -30,7 +30,8 @@
 		"ws": "^8.17.0"
 	},
 	"scripts": {
-		"start": "ts-node index.ts",
+		"start": "node dist/index.js",
+		"js:start": "ts-node index.ts",
 		"dev": "nodemon index.ts",
 		"build": "npm i -g @types/pg pg"
 	},
