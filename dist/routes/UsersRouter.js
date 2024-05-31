@@ -149,6 +149,31 @@ router.get('/:id', async (req, res) => {
         });
     }
 });
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = await userDataValidation_1.UserLoginValidationSchemaUpdate.validateAsync(req.body);
+        const user = await models_1.Users.findOne({
+            where: {
+                email
+            }
+        });
+        if (!user) {
+            throw new String("email or password incorrect");
+        }
+        const match = await bcrypt_1.default.compare(password, user.getDataValue("password"));
+        if (!match) {
+            throw new String("email or password incorrect");
+        }
+        res.status(200).json({
+            data: user
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            error: error.toString()
+        });
+    }
+});
 router.post('/', async (req, res) => {
     try {
         const data = await userDataValidation_1.UserValidationSchema.validateAsync(req.body);
