@@ -67,7 +67,7 @@ router.get('/search', async (req: Request, res: Response) => {
                     },
                     {
                         fullName: {
-                            [Op.like]: `%${search}%`
+                            [Op.iLike]: `%${search}%`
                         }
                     }
                 ]
