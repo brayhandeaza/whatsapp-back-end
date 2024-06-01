@@ -158,7 +158,6 @@ router.get('/user/:id', async (req: Request, res: Response) => {
     }
 })
 
-
 router.post('/', async (req: Request, res: Response) => {
     try {
         const { userId, participantId } = await ConversationValidationSchema.validateAsync(req.body)

@@ -99,7 +99,7 @@ router.get('/:id', async (req: Request, res: Response) => {
                     where: {
                         [Op.not]: {
                             archivedBy: {
-                                [Op.contains]: 5
+                                [Op.contains]: +req.params.id
                             }
                         }
                     },
@@ -143,16 +143,6 @@ router.get('/:id', async (req: Request, res: Response) => {
                 }
             ]
         })
-
-
-        // where: {
-        //     id: sequelize.literal(`(
-        //       SELECT id FROM Addresses
-        //       WHERE Addresses.UserId = User.id
-        //       LIMIT 1
-        //     )`)
-        //   }
-
 
         res.status(200).json({
             data: user
