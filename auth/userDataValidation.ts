@@ -9,9 +9,10 @@ export const UserValidationSchema = Joi.object({
 export const UserValidationSchemaUpdate = Joi.object({
     fullName: Joi.string().optional(),
     email: Joi.string().email().optional(),
-    password: Joi.string().optional(),
-    imageUrl: Joi.string().optional()
+    imageUrl: Joi.string().optional(),
+    password: Joi.string().optional()
 })
+
 
 export const UserLoginValidationSchemaUpdate = Joi.object({
     email: Joi.string().email().optional(),
