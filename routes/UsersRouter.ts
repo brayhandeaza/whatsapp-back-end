@@ -3,6 +3,15 @@ import { Conversations, ConversationsLastSeen, Messages, Users } from "../models
 import { UserLoginValidationSchemaUpdate, UserSearchValidationQueryParams, UserValidationQueryParams, UserValidationSchema, UserValidationSchemaUpdate, UserValidationWithLastSeenQueryParams } from "../auth/userDataValidation";
 import bcrypt from "bcrypt";
 import { Op, literal } from "sequelize";
+import { UserTypes } from "@/types/userTypes";
+
+
+type SearchType = {
+    pageSize: number
+    page: number
+    search: string
+    userId: number
+}
 
 const router: Router = Router()
 
@@ -50,7 +59,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/search', async (req: Request, res: Response) => {
     try {
-        const { pageSize, page, search, userId } = await UserSearchValidationQueryParams.validateAsync(req.query)
+        const { pageSize, page, search, userId }: SearchType = await UserSearchValidationQueryParams.validateAsync(req.query)
         const limit = pageSize ? +pageSize : 10
         const offset = limit * (page ? +page - 1 : 1)
 
@@ -67,7 +76,7 @@ router.get('/search', async (req: Request, res: Response) => {
                     },
                     {
                         fullName: {
-                            [Op.iLike]: `%${search}%`
+                            [Op.iLike]: `%${search.toLowerCase()}%`
                         }
                     }
                 ]
@@ -189,7 +198,8 @@ router.post('/login', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     try {
-        const data = await UserValidationSchema.validateAsync(req.body)
+
+        const data: UserTypes = await UserValidationSchema.validateAsync(req.body)
         const userExists = await Users.findOne({
             where: { email: data.email }
         })
@@ -201,7 +211,11 @@ router.post('/', async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10)
         const password = await bcrypt.hash(data.password, salt)
 
-        const user = await Users.create(Object.assign({}, data, { password }))
+        const user = await Users.create(Object.assign({}, data, {
+            password,
+            fullName: data.fullName.toLowerCase()
+        }))
+
         res.status(200).json({
             data: user
         })
@@ -216,6 +230,8 @@ router.post('/', async (req: Request, res: Response) => {
 
 router.patch('/:id', async (req: Request, res: Response) => {
     try {
+        console.log(req.body);
+
         const data = await UserValidationSchemaUpdate.validateAsync(req.body)
 
         if (data.password) {
@@ -238,6 +254,8 @@ router.patch('/:id', async (req: Request, res: Response) => {
         })
 
     } catch (error: any) {
+        console.log(error);
+
         res.status(400).json({
             error: error.toString()
         })
