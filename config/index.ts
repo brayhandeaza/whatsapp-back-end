@@ -29,6 +29,7 @@ export const db = new Sequelize(
         host: process.env.LOCAL_HOST,
         port: Number(process.env.LOCAL_PORT) || 5432,
         dialectModule: pg,
+        logging: false,
         dialectOptions: {
             ssl: {
                 require: true,
